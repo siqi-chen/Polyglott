@@ -30,6 +30,7 @@ $(document).ready(function() {
                 },
                 error: function(request, status, error){
                     console.log(error)
+                    alert("No text detected! Please try again!")
                 }
             });
         })
@@ -69,7 +70,7 @@ $(document).ready(function() {
                     data: 0,
                 },
                 {
-                    title: "Record",
+                    title: "Translation",
                     data: 1
                 }
             ]
@@ -150,88 +151,35 @@ $(document).ready(function() {
         var key = 'key=' + "trnsl.1.1.20190302T221501Z.db0a8355be3caec7.473bf490f3317210f75eff2f74de67bd788dc48e"
         var text = "text=" + word
 
-//        var record = []
-//        loop_date(langs, word, record)
-//        $.each(langs, function(index, lang) {
-//            record.push(get_translated_data(word, lang))
-//            get_translated_data(word, lang, record)
-//        })
-//        $.when.apply(this, record)
-//        .done(function(){
-//            console.log(record);
-//        })
-//        console.log(record)
-
-
-//            var lang_str = "lang=en-" + lang
-//            var url = base_url + key + "&" + text + "&" + lang_str
-//            var getData = $.ajax({
-//                    type: "GET",
-//                    dataType: 'json',
-//                    url: url
-//            });
-//            getData.done(function(result) {
-//                console.log(result['text'][0]);
-//                $(".translation_" + lang).text(result['text'][0]);
-//                record.push(result['text'][0]);
-//            })
-//            console.log(record);
-//            record.push(get_translated_data(lang, text, base_url, key, word))
-//        });
-//        q.all(record).then(function(res){console.log(res);});
-//        // Ensure that all the responses have arrived
-//        $.when.apply($, record)  // See below note
-//        .then(function() {
-//            console.log(record);
-////           for each promise in promises
-////              promise[i].then(function(reponseData) {
-//                 // run the necessary code
-//              });
-//        console.log(record);
-
-        history_table.row.add([word, record.join(" ")]).draw();
-    }
-
-    function loop_date(langs, word, record){
+        var requests = [];
         $.each(langs, function(index, lang) {
-            record.push(get_translated_data(word, lang))
+            requests.push(get_translated_data(word, lang))
+        })
+        $.when.apply($,requests).done(function(){
+            var total = [];
+            $.each(arguments, function (i, data) {
+                total.push(data[0]['text']); //if the result of the ajax request is a int value then
+                var lang = data[0]['lang'].split('-')[1];
+                $(".translation_" + lang).text(data[0]['text']);
+            });
+//            console.log(total)
+            history_table.row.add([word, total.join(", ")]).draw();
         })
     }
+
+
     function get_translated_data(word, lang) {
         var base_url = "https://translate.yandex.net/api/v1.5/tr.json/translate?"
         var key = 'key=' + "trnsl.1.1.20190302T221501Z.db0a8355be3caec7.473bf490f3317210f75eff2f74de67bd788dc48e"
         var text = "text=" + word
         var lang_str = "lang=en-" + lang
         var url = base_url + key + "&" + text + "&" + lang_str
-//        return $.ajax({
-//            url: url,
-//            type: 'GET',
-//            dataType: 'json',
-//            error: function(error) {
-//                console.log(error);
-//            },
-//            success: function(result) {
-////                record.push(result['text'][0]);
-////                someFunction(result['text'][0], record);
-//                return result['text'][0];
-//            }
-//        });
-        var getData = $.ajax({
+        return $.ajax({
                 type: "GET",
                 dataType: 'json',
                 url: url
         });
-        getData.done(function(result) {
-            console.log(result['text'][0]);
-            $(".translation_" + lang).text(result['text'][0]);
-//            record.push(result['text'][0]);
-            return result['text'][0]
-        })
     }
-
-//    function someFunction(data, record) {
-//        record.push(data);
-//    }
 
 
 

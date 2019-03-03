@@ -1,0 +1,8 @@
+# Python library
+opencv-contrib-python
+pillow
+pytesseract
+imutils
+
+#
+brew install tesseract --HEAD

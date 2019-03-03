@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="stuff, to, help, search, engines, not" name="keywords">
+    <meta content="What this page is about." name="description">
+    <meta content="Display Webcam Stream" name="title">
+    <title>Display Webcam Stream</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.3/css/mdb.min.css" rel="stylesheet">
+    <!-- Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <!-- Flag Icon CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css" rel="stylesheet" />
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <!--Custom Style-->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.3/js/mdb.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type=text/javascript src="{{url_for('static', filename='index.js') }}"></script>
+    <script type=text/javascript src="{{url_for('static', filename='webcam.min.js') }}"></script>
+
+    <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+</head>
+
+
+
+<body>
+    <div class="card card-image" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
+        <div class="text-white text-center py-2 px-3 my-3">
+            <div>
+                <h2 class="card-title h1-responsive pt-3 mb-5 font-bold"><strong>Create your beautiful website with MDBootstrap</strong></h2>
+                <p class="mx-5 mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat fugiat, laboriosam, voluptatem,
+        optio vero odio nam sit officia accusamus minus error nisi architecto nulla ipsum dignissimos. Odit sed qui, dolorum!
+                </p>
+                <!--<a class="btn btn-outline-white btn-md"><i class="fas fa-clone left"></i> View project</a>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="row my-5">
+            <div class="col-lg-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Web Camera</h5>
+                        <!--<h6 class="card-subtitle mb-2 text-muted">Panel subtitle</h6>-->
+                         <div id="my_camera"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7" style="padding-left: 40px;">
+                 <!--Category-->
+                <a href="#!" class="green-text">
+                    <h6 class="font-weight-bold mb-3">
+                        <i class="fas fa-utensils pr-2"></i>
+                        Food
+                    </h6>
+                </a>
+                <!-- Post title -->
+                <h3 class="font-weight-bold mb-3">
+                    Introduction: ...
+                </h3>
+
+                 <h5 class="font-weight-bold mb-3 mt-5">
+                    Translate English to
+                 </h5>
+                <div class="dropdown" id="diseases">
+                    <select style="width:80% !important; padding-left: 30px;" multiple="multiple" class="languages js-states form-control select2-hidden-accessible" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                    </select>
+                </div>
+
+
+                <form class="my-5" method='POST' action="/">
+                    <input class="btn purple-gradient btn-lg" type=button value="Text Recognition" id="text_recog">
+                    <input class="btn purple-gradient btn-lg" type=button value="Object Detection" id="object_detect">
+                </form>
+
+            </div>
+        </div>
+
+
+        <div class="row my-5">
+            <div class="col-lg-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Your Captured Image</h5>
+                        <!--<h6 class="card-subtitle mb-2 text-muted">Panel subtitle</h6>-->
+                            <!--<div id="results"></div>-->
+                        <div>
+                             <img class="result_img">
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7" style="padding-left: 60px;">
+
+
+                <div class="translate-output" style="display: none;">
+                    <h4><span class="badge badge-pill badge-primary pill_translation_english"><a class="flag-icon flag-icon-cn flag-pill"></a>English</span>
+                        <a class="audio" id="audio_translation_english"><i style="padding-left: 10px;" class="fas fa-headphones-alt"></i></a>
+                    </h4>
+                        <div style="padding-left: 50px;">
+                            <p class="translation_english"></p>
+                        </div>
+
+                    <h4><span class="badge badge-pill badge-secondary pill_translation_zh"><a class="flag-icon flag-icon-cn flag-pill"></a>Chinese</span>
+                        <a class="audio" id="audio_translation_zh"><i style="padding-left: 10px;" class="fas fa-headphones-alt"></i></a>
+                    </h4>
+                        <div style="padding-left: 50px;">
+                            <p class="translation_zh"></p>
+                        </div>
+
+                    <h4><span class="badge badge-pill badge-secondary pill_translation_ja"><a class="flag-icon flag-icon-jp flag-pill"></a>Japanese</span>
+                        <a class="audio" id="audio_translation_ja"><i style="padding-left: 10px;" class="fas fa-headphones-alt"></i></a>
+                    </h4>
+                        <div style="padding-left: 50px;">
+                            <p class="translation_ja"></p>
+                        </div>
+
+                    <h4><span class="badge badge-pill badge-secondary pill_translation_es"><a class="flag-icon flag-icon-es flag-pill"></a>Spanish</span>
+                        <a class="audio" id="audio_translation_es"><i style="padding-left: 10px;" class="fas fa-headphones-alt"></i></a>
+                    </h4>
+                        <div style="padding-left: 50px;">
+                            <p class="translation_es"></p>
+                        </div>
+
+                    <h4><span class="badge badge-pill badge-secondary pill_translation_fr"><a class="flag-icon flag-icon-fr flag-pill"></a>French</span>
+                        <a class="audio" id="audio_translation_fr"><i style="padding-left: 10px;" class="fas fa-headphones-alt"></i></a>
+                    </h4>
+                        <div style="padding-left: 50px;">
+                            <p class="translation_fr"></p>
+                        </div>
+
+                    <h4><span class="badge badge-pill badge-secondary pill_translation_ko"><a class="flag-icon flag-icon-kr flag-pill"></a>Korean</span>
+                        <a class="audio" id="audio_translation_ko"><i style="padding-left: 10px;" class="fas fa-headphones-alt"></i></a>
+                    </h4>
+                        <div style="padding-left: 50px;">
+                            <p class="translation_ko"></p>
+                        </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="row my-5">
+            <div class="col-lg-7">
+                History
+
+                    <table id="history_table" class="display" width="100%"></table>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+    <!--<div id="my_camera"></div>-->
+
+
+    <!--<form method='POST' action="/">-->
+		<!--<input type=button value="Text Recognition" id="text_recog">-->
+	<!--</form>-->
+
+    <!--<form method='POST' action="/">-->
+		<!--<input type=button value="Object Detection" id="object_detect">-->
+	<!--</form>-->
+
+    <!--<div id="results">Your captured image will appear here...</div>-->
+
+
+
+
+
+
+
+
+
+</body>
+
+
+
+
+</html>

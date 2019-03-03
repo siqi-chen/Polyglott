@@ -1,0 +1,19 @@
+#container {
+    margin: 0px auto;
+    width: 500px;
+    height: 320px;
+    border: 10px #333 solid;
+}
+#videoElement {
+    width: 500px;
+    height: 320px;
+    background-color: #666;
+}
+
+.flag-text {
+    margin-left: 15px;
+}
+
+.flag-pill {
+    margin-right: 10px;
+}

@@ -2,6 +2,7 @@
 Reference:
 https://www.pyimagesearch.com/2017/09/18/real-time-object-detection-with-deep-learning-and-opencv/
 """
+
 from imutils.object_detection import non_max_suppression
 import numpy as np
 import pytesseract
